@@ -1,0 +1,16 @@
+[project]
+name = "products-microservice"
+version = "0.1.0"
+description = "Products from the book"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "asyncpg>=0.30.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "services/stock_availability",
+    "services/user_cart",
+    "services/user_favorite",
+]

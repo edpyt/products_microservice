@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16.9-alpine
+    env_file: .env
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./queries/create_db.sql:/docker-entrypoint-initdb.d/create_database.sql
+    networks:
+      - db
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
+
+

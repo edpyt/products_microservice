@@ -1,0 +1,2 @@
+CREATE DATABASE cart;
+CREATE DATABASE favorites;
