@@ -1,4 +1,8 @@
+import functools
 from aiohttp import web
+import asyncpg
+from utils.db import DB_KEY, create_database_pool, destroy_database_pool
+
 
 routes = web.RouteTableDef()
 
@@ -7,7 +11,29 @@ routes = web.RouteTableDef()
 async def favorites(request: web.Request) -> web.Response:
     try:
         str_id = request.match_info["id"]
-        db = request.app[DB_KEY]
-        return web.json_response([])
+        user_id = int(str_id)
+        db: asyncpg.Connection = request.app[DB_KEY]
+        favorite_query = "select product_id from user_favorite where user_id = $1"
+        result = await db.fetch(favorite_query, user_id)
+        if result is not None:
+            return web.json_response(dict(record) for record in result)
+        else:
+            raise web.HTTPNotFound()
     except ValueError:
         raise web.HTTPBadRequest()
+
+
+app = web.Application()
+app.on_startup.append(
+    functools.partial(  # type: ignore[reportArgumentType]
+        create_database_pool,
+        host="127.0.0.1",
+        port=5432,
+        user="postgres",
+        password="password",
+        database="favorites",
+    )
+)
+app.on_cleanup.append(destroy_database_pool)
+app.add_routes(routes)
+web.run_app(app, port=8002)

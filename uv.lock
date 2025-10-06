@@ -4,6 +4,7 @@ requires-python = ">=3.10"
 
 [manifest]
 members = [
+    "products",
     "products-microservice",
     "stock-availability",
     "user-cart",
@@ -385,15 +386,24 @@ wheels = [
 ]
 
 [[package]]
-name = "products-microservice"
+name = "products"
 version = "0.1.0"
-source = { virtual = "." }
+source = { virtual = "services/products" }
 dependencies = [
+    { name = "aiohttp" },
     { name = "asyncpg" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "asyncpg", specifier = ">=0.30.0" }]
+requires-dist = [
+    { name = "aiohttp", specifier = ">=3.12.15" },
+    { name = "asyncpg", specifier = ">=0.30.0" },
+]
+
+[[package]]
+name = "products-microservice"
+version = "0.1.0"
+source = { editable = "." }
 
 [[package]]
 name = "propcache"
