@@ -19,4 +19,5 @@ members = [
     "services/user_cart",
     "services/user_favorite",
     "services/products",
+    "services/backend_for_frontend",
 ]

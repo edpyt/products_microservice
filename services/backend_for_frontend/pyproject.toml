@@ -1,0 +1,6 @@
+[project]
+name = "backend-for-frontend"
+version = "0.1.0"
+description = "Backend for frontend for products"
+requires-python = ">=3.10"
+dependencies = ["aiohttp>=3.12.15"]
